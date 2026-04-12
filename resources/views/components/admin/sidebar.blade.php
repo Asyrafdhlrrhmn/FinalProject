@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<aside class="w-64 h-screen bg-gray-900 text-white fixed">
+<aside class="w-64 bg-gray-900 text-white min-h-screen">
   <!-- Logo / Title -->
   <div class="p-6 text-2xl font-bold border-b border-gray-700">
     Admin Panel

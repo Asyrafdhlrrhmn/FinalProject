@@ -10,22 +10,22 @@
 
 <body class="bg-gray-100">
 
-<div class="flex">
+<div class="flex min-h-screen">
 
     <!-- Sidebar -->
-    <x-admin.sidebar />
+    <aside class="w-64 fixed h-full">
+        <x-admin.sidebar />
+    </aside>
 
-    <!-- Main -->
-    <div class="flex-1 flex flex-col">
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col ml-64">
 
         <!-- Header -->
         <x-admin.header />
 
         <!-- Content -->
-        <main class="p-6 flex-1">
-
+        <main class="flex-1 p-4">
             @yield('content')
-
         </main>
 
         <!-- Footer -->
