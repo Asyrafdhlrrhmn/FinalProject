@@ -12,7 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+
+        $table->foreignId('branch_id')
+            ->nullable()
+            ->after('id')
+            ->constrained('branches')
+            ->nullOnDelete();
+
+        $table->enum('role', [
+            'owner',
+            'manager',
+            'supervisor',
+            'cashier',
+            'warehouse'
+        ])->default('cashier')->after('password');
         });
     }
 
@@ -22,7 +35,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+        $table->dropForeign(['branch_id']);
+        $table->dropColumn(['branch_id', 'role']);
         });
     }
 };

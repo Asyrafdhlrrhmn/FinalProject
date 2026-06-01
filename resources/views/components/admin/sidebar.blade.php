@@ -1,54 +1,112 @@
-<!-- Sidebar -->
 <aside class="w-64 bg-gray-900 text-white min-h-screen">
-  <!-- Logo / Title -->
-  <div class="p-6 text-2xl font-bold border-b border-gray-700">
-    Admin Panel
-  </div>
 
-  <!-- Menu -->
-  <nav class="mt-4">
-    <ul class="space-y-2">
+    <div class="p-6 text-2xl font-bold border-b border-gray-700">
+        Mini Market
+    </div>
 
-      <li>
-        <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
-          <span class="mr-3">🏠</span>
-          Dashboard
-        </a>
-      </li>
+    <nav class="mt-4">
 
-      <li>
-        <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
-          <span class="mr-3">📦</span>
-          Produk
-        </a>
-      </li>
+        <ul class="space-y-2">
 
-      <li>
-        <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
-          <span class="mr-3">🛒</span>
-          Pesanan
-        </a>
-      </li>
+            {{-- Dashboard --}}
+            <li>
+                <a href="{{ route('dashboard') }}"
+                   class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
 
-      <li>
-        <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
-          <span class="mr-3">👤</span>
-          User
-        </a>
-      </li>
+                    <span class="mr-3">🏠</span>
 
-      <li>
-        <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
-          <span class="mr-3">⚙️</span>
-          Pengaturan
-        </a>
-      </li>
+                    Dashboard
 
-    </ul>
-  </nav>
+                </a>
+            </li>
 
-  <!-- Footer Sidebar -->
-  <div class="absolute bottom-0 w-full p-4 border-t border-gray-700 text-sm text-center">
-    © 2026 Admin
-  </div>
+            {{-- OWNER --}}
+            @if(auth()->user()->role === 'owner')
+
+                <li>
+                    <a href="{{ route('branches.index') }}"
+                       class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+
+                        <span class="mr-3">🏢</span>
+
+                        Cabang
+
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#"
+                       class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+
+                        <span class="mr-3">👥</span>
+
+                        User
+
+                    </a>
+                </li>
+
+            @endif
+
+            {{-- INVENTORY --}}
+            @if(
+                in_array(auth()->user()->role,
+                ['owner','manager','supervisor','warehouse'])
+            )
+
+                <li>
+                    <a href="#"
+                       class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+
+                        <span class="mr-3">📦</span>
+
+                        Produk
+
+                    </a>
+                </li>
+
+            @endif
+
+            {{-- TRANSAKSI --}}
+            @if(
+                in_array(auth()->user()->role,
+                ['owner','manager','cashier'])
+            )
+
+                <li>
+                    <a href="#"
+                       class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+
+                        <span class="mr-3">🛒</span>
+
+                        Transaksi
+
+                    </a>
+                </li>
+
+            @endif
+
+            {{-- ACTIVITY LOG --}}
+            @if(auth()->user()->role === 'owner')
+
+                <li>
+                    <a href="#"
+                       class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+
+                        <span class="mr-3">📋</span>
+
+                        Activity Log
+
+                    </a>
+                </li>
+
+            @endif
+
+        </ul>
+
+    </nav>
+
+    <div class="absolute bottom-0 w-full p-4 border-t border-gray-700 text-sm text-center">
+        © 2026 Mini Market
+    </div>
+
 </aside>
