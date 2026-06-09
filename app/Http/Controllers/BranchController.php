@@ -7,11 +7,30 @@ use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $branches = Branch::latest()->get();
+        $search = $request->search;
 
-        return view('branches.index', compact('branches'));
+        $branches = Branch::when(
+            $search,
+            function ($query) use ($search) {
+
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('city', 'like', "%{$search}%")
+                    ->orWhere('address', 'like', "%{$search}%");
+
+            }
+        )
+        ->latest()
+        ->get();
+
+        return view(
+            'branches.index',
+            compact(
+                'branches',
+                'search'
+            )
+        );
     }
 
     public function create()

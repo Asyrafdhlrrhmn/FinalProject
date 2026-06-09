@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 
 @section('content')
@@ -14,28 +15,66 @@
 
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-    <x-admin.stat-card
-        title="Total Cabang"
-        :value="$totalBranches"
-        description="Cabang aktif"
-        color="text-green-500"
-        icon='<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3 7h18M5 7v10h14V7"/>
-              </svg>'
-    />
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
 
     <x-admin.stat-card
         title="Total User"
-        :value="$totalUsers"
-        description="Pengguna terdaftar"
+        :value="$stats['users']"
+        description="Pengguna sistem"
         color="text-blue-500"
-        icon='<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17 20h5V4H2v16h5"/>
-              </svg>'
+        icon="👤"
+    />
+
+    <x-admin.stat-card
+        title="Total Cabang"
+        :value="$stats['branches']"
+        description="Cabang aktif"
+        color="text-green-500"
+        icon="🏢"
+    />
+
+    <x-admin.stat-card
+        title="Activity Log"
+        :value="$stats['logs']"
+        description="Riwayat aktivitas"
+        color="text-purple-500"
+        icon="📋"
+    />
+
+    <x-admin.stat-card
+        title="Manager"
+        :value="$stats['manager']"
+        description="Total manager"
+        color="text-orange-500"
+        icon="👨‍💼"
+    />
+
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+
+    <x-admin.stat-card
+        title="Supervisor"
+        :value="$stats['supervisor']"
+        description="User supervisor"
+        color="text-blue-500"
+        icon="🧑‍💼"
+    />
+
+    <x-admin.stat-card
+        title="Cashier"
+        :value="$stats['cashier']"
+        description="User kasir"
+        color="text-green-500"
+        icon="💵"
+    />
+
+    <x-admin.stat-card
+        title="Warehouse"
+        :value="$stats['warehouse']"
+        description="User gudang"
+        color="text-yellow-500"
+        icon="📦"
     />
 
 </div>
@@ -80,12 +119,12 @@
 
                 <tbody>
 
-                    @forelse($recentActivities as $activity)
+                    @forelse($activities as $activity)
 
                     <tr class="border-b">
 
                         <td class="p-3">
-                            {{ $activity->user->name }}
+                            {{ $activity->user->name ?? '-' }}
                         </td>
 
                         <td class="p-3">
@@ -121,5 +160,141 @@
     </div>
 
 </div>
+<div class="mt-8">
 
+    <div class="bg-white p-6 rounded-xl shadow">
+
+        <h2 class="text-lg font-bold mb-4">
+            Statistik User per Role
+        </h2>
+
+        <div style="height:220px;">
+            <canvas id="roleChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="mt-8">
+
+    <div class="bg-white p-6 rounded-xl shadow">
+
+        <h2 class="text-lg font-bold mb-4">
+            Aktivitas 7 Hari Terakhir
+        </h2>
+
+        <div style="height:300px;">
+            <canvas id="activityChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const ctx = document.getElementById('roleChart');
+
+    new Chart(ctx, {
+
+        type: 'doughnut',
+
+        data: {
+
+            labels: [
+                'Owner',
+                'Manager',
+                'Supervisor',
+                'Cashier',
+                'Warehouse'
+            ],
+
+            datasets: [{
+
+            label: 'Jumlah User',
+
+            data: @json($roleChart),
+
+            backgroundColor: [
+                '#3B82F6',
+                '#10B981',
+                '#F59E0B',
+                '#EF4444',
+                '#8B5CF6'
+            ],
+
+            borderWidth: 1
+
+        }]
+        },
+
+        options: {
+
+            responsive: true,
+            maintainAspectRatio: false,
+
+            scales: {
+
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+});
+
+</script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const activityCtx =
+        document.getElementById('activityChart');
+
+    new Chart(activityCtx, {
+
+        type: 'line',
+
+        data: {
+
+            labels: @json($activityLabels),
+
+            datasets: [{
+
+                label: 'Jumlah Aktivitas',
+
+                data: @json($activityData),
+
+                borderColor: '#3B82F6',
+
+                fill: false,
+
+                tension: 0.3
+
+            }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+});
+
+</script>
 @endsection

@@ -35,8 +35,8 @@
                 </li>
 
                 <li>
-                    <a href="#"
-                       class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+                    <a href="{{ route('users.index') }}"
+                      class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
 
                         <span class="mr-3">👥</span>
 
@@ -89,16 +89,15 @@
             @if(auth()->user()->role === 'owner')
 
                 <li>
-                    <a href="#"
-                       class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+                    <a
+                        href="{{ route('activity-logs.index') }}"
+                        class="flex items-center px-6 py-3 hover:bg-gray-700">
 
                         <span class="mr-3">📋</span>
-
                         Activity Log
 
                     </a>
                 </li>
-
             @endif
 
         </ul>

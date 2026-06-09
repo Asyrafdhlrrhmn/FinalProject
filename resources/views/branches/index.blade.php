@@ -14,10 +14,54 @@
         </p>
     </div>
 
-    <a href="{{ route('branches.create') }}"
-       class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-        + Tambah Cabang
-    </a>
+</div>
+
+<div class="flex justify-between items-center mb-4">
+
+    <div class="flex gap-2">
+
+        <a
+            href="{{ route('reports.branches') }}"
+            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+
+            Export PDF
+
+        </a>
+
+        <a
+            href="{{ route('branches.create') }}"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+
+            + Tambah Cabang
+
+        </a>
+
+    </div>
+
+    <form
+        action="{{ route('branches.index') }}"
+        method="GET">
+
+        <div class="flex gap-2">
+
+            <input
+                type="text"
+                name="search"
+                value="{{ $search ?? '' }}"
+                placeholder="Cari cabang, kota, atau alamat..."
+                class="border rounded-lg px-4 py-2 w-80">
+
+            <button
+                type="submit"
+                class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+
+                Cari
+
+            </button>
+
+        </div>
+
+    </form>
 
 </div>
 
