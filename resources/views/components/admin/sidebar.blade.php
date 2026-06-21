@@ -11,10 +11,12 @@
             {{-- Dashboard --}}
             <li>
                 <a href="{{ route('dashboard') }}"
-                   class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+                   class="flex items-center px-6 py-3 transition
+                   {{ request()->routeIs('dashboard')
+                        ? 'bg-blue-600 text-white'
+                        : 'hover:bg-gray-700' }}">
 
                     <span class="mr-3">🏠</span>
-
                     Dashboard
 
                 </a>
@@ -25,10 +27,12 @@
 
                 <li>
                     <a href="{{ route('branches.index') }}"
-                       class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+                       class="flex items-center px-6 py-3 transition
+                       {{ request()->routeIs('branches.*')
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-gray-700' }}">
 
                         <span class="mr-3">🏢</span>
-
                         Cabang
 
                     </a>
@@ -36,10 +40,12 @@
 
                 <li>
                     <a href="{{ route('users.index') }}"
-                      class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+                       class="flex items-center px-6 py-3 transition
+                       {{ request()->routeIs('users.*')
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-gray-700' }}">
 
                         <span class="mr-3">👥</span>
-
                         User
 
                     </a>
@@ -47,19 +53,42 @@
 
             @endif
 
-            {{-- INVENTORY --}}
+            {{-- PRODUK --}}
             @if(
                 in_array(auth()->user()->role,
                 ['owner','manager','supervisor','warehouse'])
             )
 
                 <li>
-                    <a href="#"
-                       class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+                    <a href="{{ route('products.index') }}"
+                       class="flex items-center px-6 py-3 transition
+                       {{ request()->routeIs('products.*')
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-gray-700' }}">
 
                         <span class="mr-3">📦</span>
-
                         Produk
+
+                    </a>
+                </li>
+
+            @endif
+
+            {{-- STOK MASUK --}}
+            @if(
+                in_array(auth()->user()->role,
+                ['owner','manager','warehouse'])
+            )
+
+                <li>
+                    <a href="{{ route('stock-movements.index') }}"
+                       class="flex items-center px-6 py-3 transition
+                       {{ request()->routeIs('stock-movements.*')
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-gray-700' }}">
+
+                        <span class="mr-3">📥</span>
+                        Stok Masuk
 
                     </a>
                 </li>
@@ -73,12 +102,35 @@
             )
 
                 <li>
-                    <a href="#"
-                       class="flex items-center px-6 py-3 hover:bg-gray-700 transition">
+                    <a href="{{ route('transactions.index') }}"
+                       class="flex items-center px-6 py-3 transition
+                       {{ request()->routeIs('transactions.*')
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-gray-700' }}">
 
                         <span class="mr-3">🛒</span>
-
                         Transaksi
+
+                    </a>
+                </li>
+
+            @endif
+
+            {{-- LAPORAN --}}
+            @if(
+                in_array(auth()->user()->role,
+                ['owner','manager'])
+            )
+
+                <li>
+                    <a href="{{ route('reports.sales') }}"
+                       class="flex items-center px-6 py-3 transition
+                       {{ request()->routeIs('reports.*')
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-gray-700' }}">
+
+                        <span class="mr-3">📊</span>
+                        Laporan
 
                     </a>
                 </li>
@@ -89,15 +141,18 @@
             @if(auth()->user()->role === 'owner')
 
                 <li>
-                    <a
-                        href="{{ route('activity-logs.index') }}"
-                        class="flex items-center px-6 py-3 hover:bg-gray-700">
+                    <a href="{{ route('activity-logs.index') }}"
+                       class="flex items-center px-6 py-3 transition
+                       {{ request()->routeIs('activity-logs.*')
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-gray-700' }}">
 
                         <span class="mr-3">📋</span>
                         Activity Log
 
                     </a>
                 </li>
+
             @endif
 
         </ul>
